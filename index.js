@@ -36,7 +36,6 @@ export default angular.module("arswarog.draganddrop", [])
   }])
   .directive('dropTarget', ['$rootScope', function ($rootScope) {
     return {
-      // priority: 1001,
       restrict: 'A',
       scope: {
         dropTarget: '&'
@@ -50,10 +49,10 @@ export default angular.module("arswarog.draganddrop", [])
 
         el.bind("dragover", function (e) {
           if (e.preventDefault) {
-            e.preventDefault(); // Necessary. Allows us to drop.
+            e.preventDefault();
           }
 
-          e.dataTransfer.dropEffect = 'move';  // See the section on the DataTransfer object.
+          e.dataTransfer.dropEffect = 'move';
           return false;
         });
 
@@ -62,16 +61,21 @@ export default angular.module("arswarog.draganddrop", [])
         });
 
         el.bind("dragleave", function (e) {
-          angular.element(this).removeClass('draganddrop-over');  // this / e.target is previous target element.
+          angular.element(this).removeClass('draganddrop-over');
         });
 
         el.bind("drop", function (e) {
           if (e.preventDefault) {
-            e.preventDefault(); // Necessary. Allows us to drop.
+            e.preventDefault();
           }
 
           if (e.stopPropagation) {
-            e.stopPropagation(); // Necessary. Allows us to drop.
+            e.stopPropagation();
+          }
+
+          if (!e.dataTransfer.getData("object")) {
+            console.warn("Grag data not exists. Drop event canceled");
+            return false;
           }
 
           var data = JSON.parse(e.dataTransfer.getData("object"));

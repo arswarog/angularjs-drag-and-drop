@@ -1,6 +1,6 @@
 {
   "name": "angularjs-drag-and-drop",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Native Drag&Drop for angularjs",
   "main": "index.js",
   "scripts": {
