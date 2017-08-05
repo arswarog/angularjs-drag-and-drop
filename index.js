@@ -18,16 +18,17 @@ export default angular.module("arswarog.draganddrop", [])
           id = Math.random().toString(36).replace(/[^a-z]+/g, '');
           angular.element(el).attr("id", id);
         }
-        console.log(id);
         el.bind("dragstart", function (e) {
+          if (!scope.draggable) {
+            console.warn("Graggable parameter must be object or string but ", scope.draggable);
+            return false;
+          }
           let data = JSON.stringify(scope.draggable);
           e.dataTransfer.setData('object', data);
           $rootScope.$emit("DRAG-START");
-          console.log('DRAG-START');
         });
 
         el.bind("dragend", function (e) {
-          console.log('DRAG-END');
           $rootScope.$emit("DRAG-END");
         });
       }
@@ -41,7 +42,6 @@ export default angular.module("arswarog.draganddrop", [])
         dropTarget: '&'
       },
       link: function (scope, el, attrs, controller) {
-        console.log('link');
         var id = angular.element(el).attr("id");
         if (!id) {
           id = Math.random().toString(36).replace(/[^a-z]+/g, '');
@@ -49,7 +49,6 @@ export default angular.module("arswarog.draganddrop", [])
         }
 
         el.bind("dragover", function (e) {
-          // console.log('dragover', e)
           if (e.preventDefault) {
             e.preventDefault(); // Necessary. Allows us to drop.
           }
@@ -59,7 +58,6 @@ export default angular.module("arswarog.draganddrop", [])
         });
 
         el.bind("dragenter", function (e) {
-          console.log("dragenter", e.dataTransfer.getData("object"));
           angular.element(this).addClass('draganddrop-over');
         });
 
